@@ -3,7 +3,7 @@ Option Compare Database
 Option Explicit
 '
 ' BPassword V1.1.3
-' Handling and binary storing of hashed passwords using DAO and the BCrypt API.
+' 使用DAO和BCrypt API处理和存储散列密码的二进制。
 '
 ' (c) Gustav Brock, Cactus Data ApS, CPH
 ' https://github.com/GustavBrock/VBA.Cryptography
@@ -12,12 +12,12 @@ Option Explicit
 '   Module BCrypt
 '
 
-' Append, to an existing DAO table, a binary field optimised for
-' storing a BCrypt hash value using a hash algorithm as specified by
-' the argument BcryptHashAlgorithmId.
-' Returns True if the field exists or was created.
+' 向现有的DAO表中添加一个二进制字段，该字段针对
+' 使用由参数BcryptHashAlgorithmId指定的哈希算法
+' 存储BCrypt哈希值进行了优化。
+' 如果字段存在或已创建，则返回True。
 '
-' By default, the size of the field will be set to match SHA256.
+' 默认情况下，字段的大小将被设置为匹配SHA256。
 '
 ' 2022-02-14. Gustav Brock, Cactus Data ApS, CPH.
 '

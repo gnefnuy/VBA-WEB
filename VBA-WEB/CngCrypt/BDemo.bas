@@ -3,22 +3,22 @@ Option Compare Database
 Option Explicit
 '
 ' BDemo V1.1.2
-' Various examples on implementations of the functions from BCrypt and BStorage.
+' 关于BCrypt和BStorage中函数实现的各种示例。
 '
 ' (c) Gustav Brock, Cactus Data ApS, CPH
 ' https://github.com/GustavBrock/VBA.Cryptography
 '
-' Requires:
+' 需要:
 '   Module  BCrypt
 '   Module  BStorage
-'   Table   Library
+'   Table   Library 这个是access的表
 '   Query   LibraryContent
 '
 
-' Open the query listing the decrypted content saved encrypted in table Library.
-' The key used for encryption is a single space.
+' 打开列出保存在Library表中的加密内容的查询。
+' 用于加密的密钥是一个空格。
 '
-' The encrypted content is decrypted using the two functions:
+' 加密内容使用以下两个函数进行解密：
 '   VDecryptBase64
 '   VDecryptBinary
 '
@@ -110,11 +110,11 @@ Public Function ReadEncryptedBinary( _
     
 End Function
 
-' Save, for an ID, the AES encrypted value of the text passed to a text field.
-' A key must be passed.
-' If argument Text is empty, Null will be stored.
-' Returns True if success.
-' Returns False if no key is passed.
+' 为指定的ID保存传递给文本字段的文本的AES加密值。
+' 必须传递一个密钥。
+' 如果参数Text为空，则将存储Null。
+' 如果成功，返回True。
+' 如果没有传递密钥，返回False。
 '
 ' 2022-04-05. Gustav Brock, Cactus Data ApS, CPH.
 '
