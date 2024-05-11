@@ -64,7 +64,6 @@ Private Type KEYBLOB
     'rgbKeyData() As Byte 'We'll actually append this when we build the Byte array copy.
 End Type
 
-#If VBA7 Then
 Private Declare PtrSafe Sub CopyMemory Lib "Kernel32" Alias "RtlMoveMemory" ( _
     ByVal Destination As Any, _
     ByVal Source As Any, _
@@ -144,88 +143,6 @@ Private hAdvProvider As LongPtr
 Private hKey As LongPtr
 Private hHmacHash As LongPtr
 Private TypeNameOfMe As String
-
-#Else
-Private Declare Sub CopyMemory Lib "Kernel32" Alias "RtlMoveMemory" ( _
-    ByVal Destination As Any, _
-    ByVal Source As Any, _
-    ByVal Length As Long)
-
-Private Declare Function MultiByteToWideChar Lib "Kernel32" ( _
-    ByVal CodePage As Long, _
-    ByVal dwFlags As Long, _
-    ByVal lpMultiByteStr As Long, _
-    ByVal cbMultiByte As Long, _
-    ByVal lpWideCharStr As Long, _
-    ByVal cchWideChar As Long) As Long
-
-Private Declare Function WideCharToMultiByte Lib "Kernel32" ( _
-    ByVal CodePage As Long, _
-    ByVal dwFlags As Long, _
-    ByVal lpWideCharStr As Long, _
-    ByVal cchWideChar As Long, _
-    ByVal lpMultiByteStr As Long, _
-    ByVal cchMultiByte As Long, _
-    ByVal lpDefaultChar As Long, _
-    ByVal lpUsedDefaultChar As Long) As Long
-
-Private Declare Function CryptAcquireContext Lib "Advapi32" Alias "CryptAcquireContextW" ( _
-    ByRef phProv As Long, _
-    ByVal pszContainer As Long, _
-    ByVal pszProvider As Long, _
-    ByVal dwProvType As Long, _
-    ByVal dwFlags As Long) As Long
-
-Private Declare Function CryptCreateHash Lib "Advapi32" ( _
-    ByVal hProv As Long, _
-    ByVal AlgId As Long, _
-    ByVal hKey As Long, _
-    ByVal dwFlags As Long, _
-    ByRef phHash As Long) As Long
-    
-Private Declare Function CryptDestroyHash Lib "Advapi32" ( _
-    ByVal hHash As Long) As Long
-    
-Private Declare Function CryptDestroyKey Lib "Advapi32" ( _
-    ByVal hKey As Long) As Long
-
-Private Declare Function CryptGetHashParam Lib "Advapi32" ( _
-    ByVal hHash As Long, _
-    ByVal dwParam As Long, _
-    ByRef pbData As Any, _
-    ByRef pdwDataLen As Long, _
-    ByVal dwFlags As Long) As Long
-
-Private Declare Function CryptHashData Lib "Advapi32" ( _
-    ByVal hHash As Long, _
-    ByRef pbData As Any, _
-    ByVal dwDataLen As Long, _
-    ByVal dwFlags As Long) As Long
-
-Private Declare Function CryptImportKey Lib "Advapi32" ( _
-    ByVal hProv As Long, _
-    ByVal pbData As Any, _
-    ByVal dwDataLen As Long, _
-    ByVal hPubKey As Long, _
-    ByVal dwFlags As Long, _
-    ByRef phKey As Long) As Long
-
-Private Declare Function CryptReleaseContext Lib "Advapi32" ( _
-    ByVal hProv As Long, _
-    ByVal dwFlags As Long) As Long
-
-Private Declare Function CryptSetHashParam Lib "Advapi32" ( _
-    ByVal hHash As Long, _
-    ByVal dwParam As Long, _
-    ByRef pbData As HMAC_INFO, _
-    ByVal dwFlags As Long) As Long
-
-Private hBaseProvider As Long
-Private hAdvProvider As Long
-Private hKey As Long
-Private hHmacHash As Long
-Private TypeNameOfMe As String
-#End If
 
 Public Function FromUTF8(ByRef UTF8() As Byte) As String
     Dim lngOutLen As Long
@@ -367,6 +284,7 @@ Public Function HmacSha256(ByRef data() As Byte) As Byte()
     End If
 End Function
 
+' 使用HMAC-SHA1加密
 Public Function HmacSha1(ByRef data() As Byte) As Byte()
     Dim lngErr As Long
     Dim HmacInfo As HMAC_INFO
